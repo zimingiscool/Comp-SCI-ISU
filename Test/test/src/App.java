@@ -6,72 +6,55 @@ import java.util.function.Function;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
 import javax.swing.*;
+import javax.swing.border.Border;
 
 
-public class App implements ActionListener
+public class App
 {
-    //Create Window
-    JFrame window = new JFrame("Tic Tac Toe");
-    Random random = new Random();
-    //Create JPANEL:
-    JPanel title_pnl = new JPanel();
-    JPanel button_pnl = new JPanel();
-    JLabel textfield = new JLabel();
-    JButton[] buttons = new JButton[9];
-    //Create Turn Decider
-    boolean turn;
+    public static void Main(String[] args)
+    {   
 
-    //Create Main Function:
+        //Create Frame
+        JFrame frame = new JFrame("ICS3UE3");
+        //Set Frame Attributes
+        frame.setSize(500,500);
+        frame.setLocationRelativeTo(null);
+        frame.setLayout(new BorderLayout());
+        frame.setBackground(Color.WHITE);
 
-    TicTacToe()
-    {
-        //Set Frame Border Sizes
-        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        window.setSize(800,800);
-        window.getContentPane().setBackground(new Color(50,50,50));
-        window.setLayout(new BorderLayout());
-        window.setVisible(true);
 
-        //Set Textfield Sizes
-        textfield.setBackground(new Color(25,25,25));
-        textfield.setForeground(new Color(25,255,0));
-        textfield.setHorizontalAlignment(JLabel.CENTER);
-        textfield.setText("Tic Tac Toe");
-        textfield.setOpaque(true);
+        //Create Label Title
+        JLabel title = new JLabel("ICS3UE3 Tic Tac Toe");
+        title.setBackground(Color.WHITE);
+        title.setOpaque(true);
+        title.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        frame.add(title, BorderLayout.NORTH);
 
-        //Set Panel And Button Sizes:
-
-        title_pnl.setLayout(new BorderLayout());
-        title_pnl.setBounds(0,0,800,10);
+        //Create Panel
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(3, 3, 10, 10));
+        panel.setBackground(Color.black);
         
-        button_pnl.setLayout(new GridLayout(3,3));
-        button_pnl.setBackground(new Color(150,150,150));
 
-        //Button Creation Forloop
-        for(int i =0; i<9; i++)
-        {
-            buttons[i] = new JButton();
-            button_pnl.add(buttons[i]);
-            buttons[i].setFocusable(false);
-            buttons[i].addActionListener(this);
+        //Create Clickable BUttons:
+
+        for(int i = 0; i<3; i++)//Create 9 Buttons for the tic tac toe layout
+        { 
+            for(int j = 0; j<3; j++)
+            {
+                JLabel label = new JLabel(" ");
+                label.setOpaque(true);
+                label.setBackground(Color.white);
+                label.setHorizontalAlignment(SwingConstants.CENTER);
+                panel.add(label);
+            }
         }
 
-        //Title Panel
-
-        title_pnl.add(textfield);
-        window.add(title_pnl, BorderLayout.NORTH);
-        window.add(button_pnl);
-
-        //firstTurn();
-    }
-    public static void main(String[] args)
-    {
-    
-    }
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'actionPerformed'");
+        frame.add(panel, BorderLayout.CENTER);
+        frame.setVisible(true);
     }
 }
