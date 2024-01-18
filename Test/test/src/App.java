@@ -1,16 +1,6 @@
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.util.*;
-import java.util.function.Function;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-
 import javax.swing.*;
-import javax.swing.border.Border;
+
 
 
 public class App
@@ -50,7 +40,9 @@ public class App
                 label.setOpaque(true);
                 label.setBackground(Color.white);
                 label.setHorizontalAlignment(SwingConstants.CENTER);
+
                 panel.add(label);
+                
             }
         }
 
