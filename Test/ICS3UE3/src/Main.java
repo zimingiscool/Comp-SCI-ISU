@@ -1,10 +1,15 @@
+import com.sun.security.auth.UnixNumericUserPrincipal;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.*;
+import javax.sound.sampled.*;
+import java.io.File;
 
 
 
@@ -13,6 +18,8 @@ public class Main
 
     //Create Local Variables
     private static JLabel title2;
+    private static boolean muted = false;
+    private static Clip audioClip;
     private static char turn = 'X';
     private static char[][] pos = new char[3][3];//Directional Array used to store the position of the x and o's
     private static String winner = " ";
@@ -61,6 +68,7 @@ public class Main
                 int n = j;
                 JLabel label = new JLabel(" ");
                 label.setOpaque(true);
+                label.setFont(new Font("Serif", Font.BOLD, 60));
                 label.setBackground(Color.white);
                 label.setHorizontalAlignment(SwingConstants.CENTER);
                 label.addMouseListener(new MouseListener() { // Get Mouse Input using MouseListener
@@ -146,10 +154,46 @@ public class Main
         x.add(title2);
 
 
-        //Make WIndow Visible and set Exit condition
+        //Add Music Player:
+
+        JPanel musicPlayer = new JPanel();
+
+
+        JButton playButton = new JButton("Play Music");
+        JButton muteButton = new JButton("Mute");
+
+
+        //Add Pause Play Function
+        playButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(audioClip == null || !audioClip.isRunning())
+                {
+                    playMusic();
+                    playButton.setText("Mute");
+                } else {
+                    pauseMusic();
+                    playButton.setText("Unmute");
+                }
+            }
+        });
+
+
+        //Set Image:
+
+        ImageIcon image = new ImageIcon("C:\\Users\\canad\\Documents\\GitHub\\Comp-SCI-ISU\\Test\\ICS3UE3\\Music-Images\\Image.jpg");
+        JLabel imageLabel = new JLabel(image);
+
+
+
+
+        //Make WIndow Visible and set Exit condition and others
         frame.add(x, BorderLayout.SOUTH);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
+        musicPlayer.add(playButton);//Add Playbutton
+        frame.add(musicPlayer, BorderLayout.WEST);
+        frame.add(imageLabel, BorderLayout.EAST);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
 
@@ -217,5 +261,50 @@ public class Main
         }
         return draw;
     }
+
+    //Music Player:
+
+
+    //Play Pause Function
+    private void PlayPause()
+    {
+        if(audioClip == null || !audioClip.isRunning())
+        {
+            playMusic();
+        }else
+        {
+            pauseMusic();
+        }
+    }
+
+    //Play Music Function
+    private static void playMusic()
+    {
+        try
+        {
+            //Imports Audio using IO, lesson 3
+
+            File audioFile = new File("C:\\Users\\canad\\Documents\\GitHub\\Comp-SCI-ISU\\Test\\ICS3UE3\\Music-Images\\AudioFile.wav");
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
+            audioClip = AudioSystem.getClip();
+            audioClip.open(audioStream);
+            audioClip.start();
+
+        }catch(UnsupportedAudioFileException | IOException | LineUnavailableException ex)
+        {
+            ex.printStackTrace();
+        }
+    }
+
+    //Pause Music Function
+
+    private static void pauseMusic()
+    {
+        if(audioClip != null)
+        {
+            audioClip.stop();
+        }
+    }
 }
+
 
