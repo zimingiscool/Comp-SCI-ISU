@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="ICS3UE3:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/ICS3UE3_jar</output-path>
+    <root id="archive" name="ICS3UE3.jar">
+      <element id="module-output" name="ICS3UE3" />
+      <element id="library" level="project" name="ICS3UE3" />
+    </root>
+  </artifact>
+</component>
