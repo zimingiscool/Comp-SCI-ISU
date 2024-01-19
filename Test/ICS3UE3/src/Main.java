@@ -136,7 +136,7 @@ public class Main
         frame.add(panel, BorderLayout.CENTER);
         //Create New Game Button:
         JButton button = new JButton("NEW GAME");
-        button.setBackground(Color.GRAY);
+        button.setBackground(Color.BLACK);
         button.setForeground(Color.white);
         //Create Action Listener
         button.addActionListener(new ActionListener() {
@@ -180,7 +180,7 @@ public class Main
 
         //Set Image:
 
-        ImageIcon image = new ImageIcon(Main.class.getClassLoader().getResource("Music-Images/Image.jpg"));
+        ImageIcon image = new ImageIcon(Main.class.getClassLoader().getResource("Music-Images/Image.jpg"));//Allows file to be accessed when compiled into a JAR file 
         JLabel imageLabel = new JLabel(image);
 
 
@@ -279,7 +279,7 @@ public class Main
     //Play Music Function
     private static void playMusic() {
         try {
-            InputStream audioStream = Main.class.getClassLoader().getResourceAsStream("Music-Images/AudioFile.wav");
+            InputStream audioStream = Main.class.getClassLoader().getResourceAsStream("Music-Images/AudioFile.wav");//Allows file to be accessed when compiled into a JAR file 
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new BufferedInputStream(audioStream));
             audioClip = AudioSystem.getClip();
             audioClip.open(audioInputStream);
