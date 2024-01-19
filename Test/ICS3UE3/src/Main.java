@@ -17,7 +17,6 @@ public class Main
 
     //Create Local Variables
     private static JLabel title2;
-    private static boolean muted = false;
     private static Clip audioClip;
     private static char turn = 'X';
     private static char[][] pos = new char[3][3];//Directional Array used to store the position of the x and o's
@@ -196,7 +195,7 @@ public class Main
     }
 
 
-    //Check Win Conditions Using the 2 Dimensional Array:
+    //Check Win Conditions Using the 2 Dimensional Array and if Statements: 
 
     private static boolean winCondition() {
         boolean win = false;
