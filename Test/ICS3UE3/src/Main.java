@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.*;
 import javax.sound.sampled.*;
+import java.io.*;
 import java.io.File;
 
 
@@ -179,7 +180,7 @@ public class Main
 
         //Set Image:
 
-        ImageIcon image = new ImageIcon("C:\\Users\\canad\\Documents\\GitHub\\Comp-SCI-ISU\\Test\\ICS3UE3\\Music-Images\\Image.jpg");
+        ImageIcon image = new ImageIcon(Main.class.getClassLoader().getResource("Music-Images/Image.jpg"));
         JLabel imageLabel = new JLabel(image);
 
 
@@ -276,23 +277,18 @@ public class Main
     }
 
     //Play Music Function
-    private static void playMusic()
-    {
-        try
-        {
-            //Imports Audio using IO, lesson 3
-
-            File audioFile = new File("C:\\Users\\canad\\Documents\\GitHub\\Comp-SCI-ISU\\Test\\ICS3UE3\\Music-Images\\AudioFile.wav");
-            AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
+    private static void playMusic() {
+        try {
+            InputStream audioStream = Main.class.getClassLoader().getResourceAsStream("Music-Images/AudioFile.wav");
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new BufferedInputStream(audioStream));
             audioClip = AudioSystem.getClip();
-            audioClip.open(audioStream);
+            audioClip.open(audioInputStream);
             audioClip.start();
-
-        }catch(UnsupportedAudioFileException | IOException | LineUnavailableException ex)
-        {
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
             ex.printStackTrace();
         }
     }
+
 
     //Pause Music Function
 
