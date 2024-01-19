@@ -3,6 +3,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 import javax.swing.*;
 
 
@@ -13,7 +14,10 @@ public class Main
     //Create Local Variables
     private static JLabel title2;
     private static char turn = 'X';
-
+    private static char[][] pos = new char[3][3];//Directional Array used to store the position of the x and o's
+    private static String winner = " ";
+    private static boolean enabled = true;
+    private static ArrayList<JLabel> labels = new ArrayList<JLabel>(); //Create ArrayList for JLabel for the new_game() method
     public static void main(String[] args)
     {
 
@@ -43,7 +47,7 @@ public class Main
 
         //Create Panel
         JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(3, 3, 10, 10));
+        panel.setLayout(new GridLayout(3, 3, 5, 5));
         panel.setBackground(Color.black);
 
 
@@ -53,6 +57,8 @@ public class Main
         {
             for(int j = 0; j<3; j++)//Nested loop for the turns
             {
+                int m = i;
+                int n = j;
                 JLabel label = new JLabel(" ");
                 label.setOpaque(true);
                 label.setBackground(Color.white);
@@ -61,25 +67,44 @@ public class Main
                     @Override
                     public void mouseClicked(MouseEvent e)
                     {
-                        if (label.getText().toString().equals(" "))
+                        if(enabled)
                         {
-                            label.setText(String.valueOf(turn));
-                            if(turn == 'X')
+                            if (label.getText().toString().equals(" "))
                             {
-                                label.setForeground(Color.blue);
-                                turn = 'O';
-                                title2.setText("Player Two Make Your Move: ");
-                                System.out.println("Mouse Input Registered: X");
-                            } else
+                                label.setText(String.valueOf(turn));
+                                pos[m][n] = turn;
+                                if(turn == 'X')
+                                {
+                                    label.setForeground(Color.blue);
+                                    turn = 'O';
+                                    title2.setText("Player Two Make Your Move: ");
+                                    System.out.println("Mouse Input Registered: X");
+                                } else
+                                {
+                                    label.setForeground(Color.red);
+                                    turn = 'X';
+                                    title2.setText("Player One Make Your Move: ");
+                                    System.out.println("Mouse Input Registered: O");
+                                }
+                            }else
                             {
-                                label.setForeground(Color.red);
-                                turn = 'X';
-                                title2.setText("Player One Make Your Move: ");
-                                System.out.println("Mouse Input Registered: O");
+                                title2.setText("Box Already Ticked.");
                             }
-                        }else
-                        {
-
+                            if(winCondition() && winner.equals("X"))
+                            {
+                                title2.setText("Player 1 Won");
+                                title2.setForeground(Color.blue);
+                                enabled = false;
+                            }else if(winCondition() && winner.equals("O"))
+                            {
+                                title2.setText("Player 2 Won");
+                                title2.setForeground(Color.red);
+                                enabled = false;
+                            } else if (!draw())
+                            {
+                                title2.setText("Draw");
+                                enabled = false;
+                            }
                         }
                     }
                     @Override
@@ -96,20 +121,22 @@ public class Main
                     }
                 });
                 panel.add(label);
+                labels.add(label);
 
             }
         }
 
         frame.add(panel, BorderLayout.CENTER);
-        //Create Button:
+        //Create New Game Button:
         JButton button = new JButton("NEW GAME");
         button.setBackground(Color.GRAY);
         button.setForeground(Color.white);
         //Create Action Listener
         button.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-
+            public void actionPerformed(ActionEvent e)
+            {
+                new_game();
             }
         });
 
@@ -124,4 +151,71 @@ public class Main
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
+
+
+    //Check Win Conditions Using the 2 Dimensional Array:
+
+    private static boolean winCondition() {
+        boolean win = false;
+        if (pos[0][0]==pos[0][1] && pos[0][0]==pos[0][2] && pos[0][0]!=0) {
+            win = true;
+            winner = String.valueOf(pos[0][0]);
+        } else if (pos[1][0]==pos[1][1] && pos[1][0]==pos[1][2] && pos[1][0]!=0) {
+            win = true;
+            winner = String.valueOf(pos[1][0]);
+        } else if (pos[2][0]==pos[2][1] && pos[2][0]==pos[2][2] && pos[2][0]!=0) {
+            win = true;
+            winner = String.valueOf(pos[2][0]);
+        } else if (pos[0][0]==pos[1][0] && pos[0][0]==pos[2][0] && pos[0][0]!=0) {
+            win = true;
+            winner = String.valueOf(pos[0][0]);
+        } else if (pos[0][1]==pos[1][1] && pos[0][1]==pos[2][1] && pos[0][1]!=0) {
+            win = true;
+            winner = String.valueOf(pos[0][1]);
+        } else if (pos[0][2]==pos[1][2] && pos[0][2]==pos[2][2] && pos[0][2]!=0) {
+            win = true;
+            winner = String.valueOf(pos[0][2]);
+        } else if (pos[0][0]==pos[1][1] && pos[0][0]==pos[2][2] && pos[0][0]!=0) {
+            win = true;
+            winner = String.valueOf(pos[0][0]);
+        } else if (pos[2][0]==pos[1][1] && pos[2][0]==pos[0][2] && pos[2][0]!=0) {
+            win = true;
+            winner = String.valueOf(pos[2][0]);
+        }
+        return win;
+    }
+
+    //Create New Game Function
+    private static void new_game()
+    {
+        pos = new char[3][3];
+        winner = " ";
+        title2.setText("Player One Make Your Move: ");
+        title2.setForeground(Color.black);
+        turn = 'X';
+        enabled = true;
+        for(JLabel label : labels)//For loop iterates over arraylist to remove the x and o's from the board/grid
+        {
+            label.setText(" ");
+        }
+    }
+
+    //Create Grid Clearing Function
+    private static boolean draw()
+    {
+        boolean draw = false;
+        for(char[] a : pos)// Nested Loop iterates through two dementional array
+        {
+            for(char b : a)
+            {
+                if(b==0)// Nested Loop
+                {
+                    draw = true;//Sets draw function to true so that it can clear out the grid
+                    break; // Break Loop
+                }
+            }
+        }
+        return draw;
+    }
 }
+
