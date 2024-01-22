@@ -156,7 +156,6 @@ public class Main
 
 
         JButton playButton = new JButton("Play Music");
-        JButton muteButton = new JButton("Mute");
 
 
         //Add Pause Play Function
@@ -258,20 +257,7 @@ public class Main
         return draw;
     }
 
-    //Music Player:
-
-
-    //Play Pause Function
-    private void PlayPause()
-    {
-        if(audioClip == null || !audioClip.isRunning())
-        {
-            playMusic();
-        }else
-        {
-            pauseMusic();
-        }
-    }
+    //Music Player:    
 
     //Play Music Function
     private static void playMusic() {
