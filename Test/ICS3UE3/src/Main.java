@@ -177,7 +177,7 @@ public class Main
 
         //Set Image:
 
-        ImageIcon image = new ImageIcon(Main.class.getClassLoader().getResource("Test\\ICS3UE3\\res\\Music-Images\\Image.jpg"));//Allows file to be accessed when compiled into a JAR file 
+        ImageIcon image = new ImageIcon(Main.class.getClassLoader().getResource("res/Music-Images/Image.jpg"));//Allows file to be accessed when compiled into a JAR file //Allows file to be accessed when compiled into a JAR file
         JLabel imageLabel = new JLabel(image);
 
 
@@ -276,7 +276,7 @@ public class Main
     //Play Music Function
     private static void playMusic() {
         try {
-            InputStream audioStream = Main.class.getClassLoader().getResourceAsStream("Test\\ICS3UE3\\res\\Music-Images\\AudioFile.wav");//Allows file to be accessed when compiled into a JAR file 
+            InputStream audioStream = Main.class.getClassLoader().getResourceAsStream("res/Music-Images/AudioFile.wav");//Allows file to be accessed when compiled into a JAR file
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new BufferedInputStream(audioStream));
             audioClip = AudioSystem.getClip();
             audioClip.open(audioInputStream);
